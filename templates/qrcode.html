@@ -1,0 +1,94 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR code</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body class="bg-gray-400 ">
+<div class="container p-4 mx-auto ">
+    <div class="text-2xl font-bold mb-3 text-center ">
+        Your QR code
+    </div>
+    
+    <div class="flex flex-col items-center p-5 gap-2 ">
+        <img src="data:image/png;base64,{{ img_str }}" alt="QR Code" class="h-80 w-80">
+        <a href="{{ url_for('index') }}" class="text-blue-500 font-bold text-2xl text-center ">Generate Another QR Code</a>
+    </div>
+        
+           
+        
+</div>
+    
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qrcode</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-300">
+    <div class="container p-4 mx-auto">
+        <div class="text-2xl font-bold mb-3 text-center">Your QR Code</div>
+            <div class="flex flex-col justify-center gap-3">
+                <img src="data:image/png;base64,{{ img_str }}" alt="QR Code" class="mx-auto">
+                <a href="{{ url_for('index') }}" class="text-blue-400 rounded text-center">Generate Another QR Code</a>
+                <div class="flex gap-3 justify-center">
+                    <button onclick="download()" class="bg-blue-500 text-white py-1 px-3 rounded"><i class="fa-solid fa-download"></i>
+                    Download QR Code</button>
+                    <button onclick="share()" href="/" class="bg-green-500 text-white py-1 px-3 rounded"><i class="fa-solid fa-share"></i>Share QR Code</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            download=()=>{
+                const img=document.getElementById('image')
+
+                const url=img.src;
+
+                const a=document.childElement('a')
+
+                a.href=url;
+
+                a.download='qrcode.png'
+
+                document.body.appendChild(a)
+
+                a.Click()
+
+                document.body.removeChild(a);
+            }
+
+
+             share=()=>{
+                const img=document.getElementById('image')
+
+                const url=img.src;
+
+                fetch(url).then(
+                    res=>res.blob()
+                ).then(
+                    blob=>{
+                        const file=new File([blob],'qrcode.png',{type: 'image/png'});
+
+                        navigator.share(
+                            {
+                                title:'QR Code',
+                                text:'Check out this QR Code!!!',
+                                files:[file]
+                            }
+                        )
+                    }
+                )
+
+            }
+        </script>
+</body>
+</html>
